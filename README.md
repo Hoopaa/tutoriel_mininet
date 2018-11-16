@@ -29,11 +29,12 @@ Cette interface s'exécute avec la commande :
 * <i>sudo mininet/examples/miniedit.py</i>
 
 Par défaut, la topologie donnée par mininet est constituée d'un contrôleur, un switch et deux hôtes. Sur miniedit, cette topologie ressemble à la figure suivante : 
-![Default topology](/img/default_topo.png)
+
+![Default topology](/img/default_topo.PNG)
 
 Les différents outils sur la gauche de miniedit permettent de modifier la topologie affichée.
 
-![Tools Miniedit](/img/tools_miniedit.png)
+![Tools Miniedit](/img/tools_miniedit.PNG)
 
 Dans l'ordre d'affichage de la figure précédent :
 1. Permet de déplacer les objets dans la topologie.

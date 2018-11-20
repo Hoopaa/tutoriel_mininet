@@ -188,5 +188,35 @@ for h in hosts:
     results[h.name] = h.waitOutput()
 ```
 
+### Système de fichier partagé
 
+Par défaut, les hôtes mininet partage le système de fichier racine de la machine utilisée. En revanche, il est possible de déterminer un dossier privé par hôte à la création de l'hôte. 
 
+`h = Host( 'h1', privateDirs=[ '/some/directory' ] )`
+
+### Configurer un hôte 
+
+Les hôtes possèdent des méthodes de configuration permettant de configurer leur adresse IP, leur adresse MAC...
+
+* `host.IP()` : Retourne l'adresse IP de l'hôte.
+* `host.MAC()` : Retourne l'adresse MAC de l'hôte.
+* `host.setARP()` : Ajoute une entrée ARP statique au cache ARP de l'hôte.
+* `host.setIP()` : Assigne une adresse IP spécifique à un hôte.
+* `host.setMAC()` : Assigne une adresse MAC spécifique à un hôte.
+
+### Command line interface (CLI)
+
+Lors de l'exécution de mininet via la commande `sudo mn`, une interface ligne de commande est offerte à l'utilisateur. Il est possible d'avoir cette interface sur un script Python. Il suffit d'ajouter la ligne `CLI(net)`. Le code ressemblerait à ceci :
+
+```python
+from mininet.topo import SingleSwitchTopo
+from mininet.net import Mininet
+from mininet.cli import CLI
+
+net = Mininet(SingleSwitchTopo(2))
+net.start()
+CLI(net)
+net.stop()
+```
+
+Ajouter cette commande peut être utile pour débugger en temps réel un réseau.

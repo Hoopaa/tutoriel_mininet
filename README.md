@@ -109,3 +109,78 @@ Plusieurs informations importantes sont à retenir de ce code.
 
 Par défaut, Mininet utilise un réseau qui est "parfait". Il est possible d'ajouter des indicateurs de performance sur les liens et par exemple sur les hôtes. 
 
+Reprenons certaines méthodes Python précédentes :
+
+* `addHost(name, cpu=f)` : Ajoute un hôte et permet d'ajouter une contrainte d'utilisation du processeur. Contenue entre 0 et 1, elle correspond au pourcentage f d'utilisation allouée du processeur.
+* `addLink(node1, node2, bw=10, delay='5ms', max_queue_size=1000, loss=10, use_htb=True)` : Ajoute un lien bidirectionnel avec une bande passante de 10 Mbits, un délai de 5ms, une limite de 1000 paquets ainsi qu'une perte de 10% de paquets. 
+
+Ensuite, il est possible de tester la connectivité entre deux hôtes grâce à la méthode `net.iperf()`. Cette méthode prend un tuple de noeuds en argument. La méthode `net.get(name)` permet de récupérer un noeud grâce à son nom. 
+
+Le code suivant créé un réseau et effectue un simple test de performance.
+
+```python
+
+#!/usr/bin/python
+
+from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.node import CPULimitedHost
+from mininet.link import TCLink
+from mininet.util import dumpNodeConnections
+from mininet.log import setLogLevel
+
+class SingleSwitchTopo( Topo ):
+    "Single switch connected to n hosts."
+    def build( self, n=2 ):
+	switch = self.addSwitch( 's1' )
+	for h in range(n):
+	    # Each host gets 50%/n of system CPU
+	    host = self.addHost( 'h%s' % (h + 1),
+		                 cpu=.5/n )
+	    # 10 Mbps, 5ms delay, 2% loss, 1000 packet queue
+	    self.addLink( host, switch, bw=10, delay='5ms', loss=2,
+                          max_queue_size=1000, use_htb=True )
+
+def perfTest():
+    "Create network and run simple performance test"
+    topo = SingleSwitchTopo( n=4 )
+    net = Mininet( topo=topo,
+	           host=CPULimitedHost, link=TCLink )
+    net.start()
+    print "Dumping host connections"
+    dumpNodeConnections( net.hosts )
+    print "Testing network connectivity"
+    net.pingAll()
+    print "Testing bandwidth between h1 and h4"
+    h1, h4 = net.get( 'h1', 'h4' )
+    net.iperf( (h1, h4) )
+    net.stop()
+
+if __name__ == '__main__':
+    setLogLevel( 'info' )
+    perfTest()
+
+```
+
+### Exécuter des programmes sur un hôte
+
+Chaque hôte mininet est un shell bash attaché à une ou plusieurs interfaces réseau. Le plus simple est d'exécuter la commande grâce à la méthode cmd.
+Le code suivant montre comment effectuer la commande `ifconfig` sur un hôte et d'afficher son résultat : 
+
+```python
+h1 = net.get('h1')	
+result = h1.cmd('ifconfig')
+print result
+```
+
+Il est également possible de démarrer une commande au premier plan avec `sendCmd()` et d'attendre qu'elle se termine plus tard dans le code en utilisant `waitOutput()` :
+
+```python
+for h in hosts:
+    h.sendCmd('sleep 20')
+…
+results = {}
+for h in hosts:
+    results[h.name] = h.waitOutput()
+```
+

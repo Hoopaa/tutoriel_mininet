@@ -7,7 +7,7 @@ Mininet supporte le protocole OpenFlow.
 ## Commandes utiles
 
 Pour éxecuter mininet, il faut utiliser la commande suivante : 
-* <i>sudo mn</i>
+* `sudo mn`
 
 De nombreuses options sont à disposition, elles peuvent être affichées en ajoutant le flag <i>-h</i>
 
@@ -27,15 +27,15 @@ Mininet fournit une interface en ligne de commande qui peut être utilisée pour
 Mininet fournit un outil qui permet de créer sa propre topologie de manière graphique du nom de miniedit. 
 
 Cette interface s'exécute avec la commande :
-* <i>sudo mininet/examples/miniedit.py</i>
+* `sudo mininet/examples/miniedit.py`
 
 Par défaut, la topologie donnée par mininet est constituée d'un contrôleur, un switch et deux hôtes. Sur miniedit, cette topologie ressemble à la figure suivante : 
 
-![Default topology](/img/default_topo.PNG)
+<img align="center" src="/img/default_topo.PNG" alt="Default topology">
 
 Les différents outils sur la gauche de miniedit permettent de modifier la topologie affichée.
 
-![Tools Miniedit](/img/tools_miniedit.PNG)
+<img align="center" src="/img/tools_miniedit.PNG" alt="Tools Miniedit">
 
 Dans l'ordre d'affichage de la figure précédent :
 1. Permet de déplacer les objets dans la topologie.
@@ -48,7 +48,7 @@ Dans l'ordre d'affichage de la figure précédent :
 
 Lorsque la topologie a été créée avec miniedit, il est possible de l'exporter dans un fichier Python en allant dans <i>File / Export Level 2 Script</i>. Le fichier Python pourra être utilisé comme un fichier Python normal. Le code python offre toutes les fonctionnalités que l'on peut trouver dans le client mininet.
 
-* <i>sudo python file.py</i>
+* `sudo python file.py`
 
 ## Utiliser Mininet en Python
 
@@ -183,4 +183,6 @@ results = {}
 for h in hosts:
     results[h.name] = h.waitOutput()
 ```
+
+
 

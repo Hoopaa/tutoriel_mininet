@@ -31,11 +31,15 @@ Cette interface s'exécute avec la commande :
 
 Par défaut, la topologie donnée par mininet est constituée d'un contrôleur, un switch et deux hôtes. Sur miniedit, cette topologie ressemble à la figure suivante : 
 
-<img align="center" src="/img/default_topo.PNG" alt="Default topology">
+<p align="center">
+    <img src="/img/default_topo.PNG" alt="Default topology"/>
+</p>
 
 Les différents outils sur la gauche de miniedit permettent de modifier la topologie affichée.
 
-<img align="center" src="/img/tools_miniedit.PNG" alt="Tools Miniedit">
+<p align="center">
+    <img src="/img/tools_miniedit.PNG" alt="Tools Miniedit" />
+</p>
 
 Dans l'ordre d'affichage de la figure précédent :
 1. Permet de déplacer les objets dans la topologie.

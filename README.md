@@ -8,6 +8,7 @@ Mininet supporte le protocole OpenFlow.
 
 Pour éxecuter mininet, il faut utiliser la commande suivante : 
 * <i>sudo mn</i>
+
 De nombreuses options sont à disposition, elles peuvent être affichées en ajoutant le flag <i>-h</i>
 
 Mininet fournit une interface en ligne de commande qui peut être utilisée pour voir l'état du réseau et faire des tests dessus. 
@@ -50,4 +51,61 @@ Lorsque la topologie a été créée avec miniedit, il est possible de l'exporte
 * <i>sudo python file.py</i>
 
 ## Utiliser Mininet en Python
+
+Mininet peut être utilisé en Python pour créer et faire les tests sur les topologies. C'est ce que miniedit fait lorsque l'on exporte le script. 
+
+### Créer des topologies
+
+Soit le code python suivant : 
+
+```python
+
+#!/usr/bin/python                                                                            
+                                                                                             
+from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.util import dumpNodeConnections
+from mininet.log import setLogLevel
+
+class SingleSwitchTopo(Topo):
+    "Single switch connected to n hosts."
+    def build(self, n=2):
+        switch = self.addSwitch('s1')
+        # Python's range(N) generates 0..N-1
+        for h in range(n):
+            host = self.addHost('h%s' % (h + 1))
+            self.addLink(host, switch)
+
+def simpleTest():
+    "Create and test a simple network"
+    topo = SingleSwitchTopo(n=4)
+    net = Mininet(topo)
+    net.start()
+    print "Dumping host connections"
+    dumpNodeConnections(net.hosts)
+    print "Testing network connectivity"
+    net.pingAll()
+    net.stop()
+
+if __name__ == '__main__':
+    # Tell mininet to print useful information
+    setLogLevel('info')
+    simpleTest()
+
+```
+Plusieurs informations importantes sont à retenir de ce code. 
+
+* `build()` : La méthode à surcharger pour créer des topologies personnalisées.
+* `addSwitch()` : Ajoute un switch et retourne son nom.
+* `addHost()` : Ajoute un hôte et retourne son nom.
+* `addLink()` : Ajoute un lien bidirectionnel entre les composants passés en argument.
+* `start()` : Démarre le réseau.
+* `pingAll()`: Effectue l'équivalent de pingall sur le réseau.
+* `stop()` : Arrête le réseau.
+* `net.hosts`: Liste de tous les hôtes du réseau.
+* `dumpNodeConnections()` : Affiche les connexions entre les noeuds. 
+
+### Performances d'un réseau
+
+Par défaut, Mininet utilise un réseau qui est "parfait". Il est possible d'ajouter des indicateurs de performance sur les liens et par exemple sur les hôtes. 
 

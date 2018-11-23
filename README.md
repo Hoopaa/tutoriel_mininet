@@ -21,6 +21,7 @@ Mininet fournit une interface en ligne de commande qui peut être utilisée pour
 * <i>mininet> pingall</i> - Permet de tester la connectivité du réseau. Toutes les machines vont se ping entre elles. 
 * <i>mininet> link s1 h1 down</i> - Enlève le lien réseau entre s1 et h1.
 * <i>mininet> link s1 h1 up </i> - Remet le lien réseau entre s1 et h1.
+* <i>mininet> xterm h1</i> - Ouvre une fenêtre en ligne de commande sur l'hôte h1.
 
 ## Miniedit
 
@@ -220,3 +221,81 @@ net.stop()
 ```
 
 Ajouter cette commande peut être utile pour débugger en temps réel un réseau.
+
+
+## Utiliser POX
+
+POX est installé de base avec la version complète de mininet. POX permet d'ajouter un contrôleur externe au réseau qui gère tous les switchs.
+
+Pour effectuer les prochaines étapes, le code suivant sera utilisé : 
+
+```python
+from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.node import OVSSwitch, Controller, RemoteController
+
+class RectTopo( Topo ):
+    "Rectangular topology example."
+
+    def __init__( self ):
+        "Create custom topo."
+
+        # Initialize topology
+        Topo.__init__( self )
+
+        # Add hosts and switchesovs-ofctl
+        h1 = self.addHost( 'h1' )
+        h2 = self.addHost( 'h2' )
+        h3 = self.addHost( 'h3' )
+        h4 = self.addHost( 'h4' )
+        s1 = self.addSwitch( 's1' )
+        s2 = self.addSwitch( 's2' )
+        s3 = self.addSwitch( 's3' )
+        s4 = self.addSwitch( 's4' )
+
+        # Add links
+        self.addLink( h1, s1 )
+        self.addLink( h2, s2 )
+        self.addLink( h3, s3 )
+        self.addLink( h4, s4 )
+
+        self.addLink( s1, s2 )
+        self.addLink( s2, s3 )
+        self.addLink( s3, s4 )
+    #	self.addLink( s4, s1 )
+
+topos = { 'recttopo': ( lambda: RectTopo() ) }
+```
+
+A noter la dernière ligne, qui permet de lancer la topologie via ligne de commande. 
+
+Ce code python démarre un simple réseau en rectangle, qui ressemble à ceci : 
+
+<p align="center">
+    <img src="/img/topo_rectangle.PNG" alt="Rectangle topology"/>
+</p>
+
+La liaison s4, s1 est commentée dans le code, ce qui est normal.
+
+### Forwarding hub
+
+POX fournit des exemples de code pour aider à se familiariser avec cet outil. Tout d'abord, nous allons commencer avec `pox/pox/forwarding/hub.py`. Ce code exemple transforme les switchs de la topologie en hubs.
+
+Pour lancer ce code exemple, rentrer la commande suivante en ligne de commande : 
+
+`pox/pox.py --verbose forwarding.hub`
+
+Une fois lancée, dans un autre terminal, il faut lancer la topologie Mininet en rectangle : 
+
+`sudo mn --custom rectangle.py --topo recttopo --controller remote --switch ovsk --mac`
+
+L'option `--mac` permet de faire en sorte que les adresses MAC soient des integers facile à lire, par exemple 00:00:00:00:00:01.
+
+POX indique qu'il a pris le contrôle des switchs. 
+
+<p align="center">
+    <img src="/img/pox_connected.PNG" alt="Pox connected"/>
+</p>
+
+
+

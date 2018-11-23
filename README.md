@@ -326,7 +326,27 @@ La première ligne du code qui nous intéresse est celle-ci :
 core.openflow.addListenerByName("ConnectionUp", _handle_ConnectionUp)
 ```
 
-`addListener()` est une méthode qui permet la gestion d'évenement dans POX. Ici, lorsque l'évenement "ConnectionUp" arrive, la méthode `ConnectionUp()` est appelée.
+`addListener()` est une méthode qui permet la gestion d'évenement dans POX. Ici, lorsque l'évenement "ConnectionUp" arrive, la méthode `_handle_ConnectionUp()` est appelée.
+
+Dans la méthode `_handle_ConnectionUp()`, on retrouve le code suivant : 
+
+```python
+msg = of.ofp_flow_mod()
+msg.actions.append(of.ofp_action_output(port = of.OFPP_FLOOD))
+event.connection.send(msg)
+log.info("Hubifying %s", dpidToStr(event.dpid))
+```
+
+La première ligne indique que l'on veut créer un nouveau message. La classe `ofp_flow_mod()` est utilisée et c'est elle qui permet de créer ces messages. 
+
+Ensuite, il est indiqué que l'on veut effectuer une action. Envoyer le message. Plus précisement ce message sera floodé dans le réseau. 
+
+Le message est finalement envoyé.
+
+
+## Learning switch
+
+
 
 
 ## References
@@ -334,6 +354,8 @@ core.openflow.addListenerByName("ConnectionUp", _handle_ConnectionUp)
 https://github.com/mininet/mininet/wiki/Introduction-to-Mininet
 
 https://noxrepo.github.io/pox-doc/html
+
+https://github.com/mininet/openflow-tutorial/wiki/Create-a-Learning-Switch
 
 http://pld.cs.luc.edu/courses/netmgmt/sum17/notes/mininet_and_pox.html
 

@@ -299,3 +299,9 @@ POX indique qu'il a pris le contrôle des switchs.
 
 
 
+## References
+
+https://github.com/mininet/mininet/wiki/Introduction-to-Mininet
+
+http://pld.cs.luc.edu/courses/netmgmt/sum17/notes/mininet_and_pox.html
+

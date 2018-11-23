@@ -298,10 +298,42 @@ POX indique qu'il a pris le contrôle des switchs.
 </p>
 
 
+Sur le terminal Mininet, vérifier que le réseau fonctionne :
+
+* <i>mininet> h1 ping h4</i>
+
+Tout fonctionne correctement. Maintenant, il faut mettre la liaision entre les switchs 1 et 4. Quitter et décommenter la ligne dans `rectangle.py`.
+
+Relancer Mininet (POX est toujours actif). Et renouveller le ping entre h1 et h4.
+
+La commande ping donne un résultat qui ressemble à ceci :
+
+`6 packets transmitted, 6 received, +134913 duplicates, 0% packet loss, time 5016ms`
+
+Cela prouve que les switchs ont bien été transformés en hubs.
+
+### Analyse du code
+
+Le code du fichier `hub.py` contient une fonction du nom de `launch`. Un composant POX doit toujours posséder une fonction `launch`. Cette fonction est appelée par POX et est utilisée afin d'initialiser le module. Elle permet également de passer directement des arguments via ligne de commande.
+
+Par exemple, pour la commande utilisée pour lancer le hub POX, il aurait pu être précisé que le hub soit reactive.
+
+`pox/pox.py --verbose forwarding.hub --reactive=True`
+
+La première ligne du code qui nous intéresse est celle-ci :
+
+```python
+core.openflow.addListenerByName("ConnectionUp", _handle_ConnectionUp)
+```
+
+`addListener()` est une méthode qui permet la gestion d'évenement dans POX. Ici, lorsque l'évenement "ConnectionUp" arrive, la méthode `ConnectionUp()` est appelée.
+
 
 ## References
 
 https://github.com/mininet/mininet/wiki/Introduction-to-Mininet
+
+https://noxrepo.github.io/pox-doc/html
 
 http://pld.cs.luc.edu/courses/netmgmt/sum17/notes/mininet_and_pox.html
 

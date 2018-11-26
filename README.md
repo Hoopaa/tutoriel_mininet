@@ -356,6 +356,20 @@ Pour exécuter le fichier, il faut utiliser la commande suivante :
 
 `pox/pox.py --verbose misc.of_tutorial` puis utiliser la topologie `rectangle.py` utilisée auparavant.
 
+Commencer par effectuer la partie sans avoir de flow. Il suffit d'apprendre le port selon l'adresse MAC source puis, si l'adresse se trouve dans la table, le renvoyer.
+
+Pour tester si le réseau est fonctionnel, la commande `pingall` ainsi que la commande `iperf` peuvent être utiles. 
+
+Une fois que la partie d'apprentissage fonctionne, il est intéressant de faire un flow. Le flow permet d'augmenter fortement la vitesse d'envoi de paquet. 
+
+<p align="center">
+    <img src="/img/iperf_noflow.PNG" alt="Iperf noflow"/>
+    <img src="/img/iperf_flow.PNG" alt="Iperf flow"/>
+</p>
+
+
+
+La correction de cet exercice se trouve dans le dossier `codes` de ce repo.
 
 
 

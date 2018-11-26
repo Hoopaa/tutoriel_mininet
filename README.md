@@ -360,7 +360,7 @@ Commencer par effectuer la partie sans avoir de flow. Il suffit d'apprendre le p
 
 Pour tester si le réseau est fonctionnel, la commande `pingall` ainsi que la commande `iperf` peuvent être utiles. 
 
-Une fois que la partie d'apprentissage fonctionne, il est intéressant de faire un flow. Le flow permet d'augmenter fortement la vitesse d'envoi de paquet. 
+Une fois que la partie d'apprentissage fonctionne, il est intéressant de faire un flow. Le flow permet d'augmenter fortement la vitesse d'envoi de paquet. Les deux images suivantes montrent cette différence. 
 
 <p align="center">
     <img src="/img/iperf_noflow.PNG" alt="Iperf noflow"/>

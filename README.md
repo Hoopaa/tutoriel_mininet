@@ -346,6 +346,17 @@ Le message est finalement envoyé.
 
 ## Learning switch
 
+Un switch n'est pas censé fonctionner comme un hub. Le fichier `pox/misc/of_tutorial.py` a été créé afin d'apprendre les bases d'OpenFlow. Il est configuré de base pour que les switchs fonctionnent comme des hub. Le code utilise la fonction `act_like_hub()` mais possède la fonction `act_like_switch()`. Le but est d'utiliser cette dernière et de faire en sorte que le switch fonctionne comme un switch.
+
+La fonction `act_like_switch` possède déjà des élements de code pour pouvoir assurer le fonctionnement du switch.
+
+La première étape est de vérifier que le code du hub fonctionne correctement. 
+
+Pour exécuter le fichier, il faut utiliser la commande suivante : 
+
+`pox/pox.py --verbose misc.of_tutorial` puis utiliser la topologie `rectangle.py` utilisée auparavant.
+
+
 
 
 
